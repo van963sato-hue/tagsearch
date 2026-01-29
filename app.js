@@ -1,5 +1,5 @@
 /* Prompt Tag Finder v0.1.0 */
-const DATA_URL = "./data/tags.v0.1.0.json";
+const DATA_URL = "./data/tags.v0.1.1.json";
 
 const $ = (id) => document.getElementById(id);
 
@@ -36,30 +36,10 @@ function buildSelectOptions(rows){
   const cats = new Set(["（すべて）"]);
   const srcs = new Set(["（すべて）"]);
   for(const r of rows){
-    if(r.category_jp) cats.add(r.category_jp);
-    if(r.source_site) srcs.add(r.source_site);
-  }
-  const catSel = $("fCategory");
-  const srcSel = $("fSource");
-  catSel.innerHTML = "";
-  srcSel.innerHTML = "";
-  for(const v of [...cats].sort()){
-    const o = document.createElement("option");
-    o.value = v === "（すべて）" ? "" : v;
-    o.textContent = v;
-    catSel.appendChild(o);
-  }
-  for(const v of [...srcs].sort()){
-    const o = document.createElement("option");
-    o.value = v === "（すべて）" ? "" : v;
-    o.textContent = v;
-    srcSel.appendChild(o);
-  }
-}
+    if(r.category_jp) cats.add(r.category_jp);  }
+  const catSel = $("fCategory");}
 function passesFilters(r){
-  const cat = $("fCategory").value;
-  const src = $("fSource").value;
-  if(cat && r.category_jp !== cat) return false;
+  const cat = $("fCategory").value;  if(cat && r.category_jp !== cat) return false;
   if(src && r.source_site !== src) return false;
 
   const nsfwOn = $("fNSFW").checked;
@@ -155,17 +135,7 @@ function renderList(rows){
     body.className = "itemBody";
     const en = r.tag_en ? `EN: ${r.tag_en}` : "";
     const jp = r.tag_jp ? `JP: ${r.tag_jp}` : "";
-    body.textContent = [en, jp].filter(Boolean).join("   ");
-
-    const small = document.createElement("div");
-    small.className = "small";
-    small.textContent = r.source_url ? r.source_url : "";
-
-    left.appendChild(badges);
-    left.appendChild(body);
-    if(r.source_url) left.appendChild(small);
-
-    top.appendChild(left);
+    body.textContent = [en, jp].filter(Boolean).join("   ");top.appendChild(left);
     item.appendChild(top);
 
     item.addEventListener("click", ()=>{
@@ -242,13 +212,7 @@ function wire(){
 
   const rerender = ()=> renderList(state.data);
   $("q").addEventListener("input", rerender);
-  $("fCategory").addEventListener("change", rerender);
-  $("fSource").addEventListener("change", rerender);
-  $("fNSFW").addEventListener("change", ()=>{
-    $("fNsfwMax").disabled = !$("fNSFW").checked;
-    rerender();
-  });
-  $("fNsfwMax").addEventListener("change", rerender);
+  $("fCategory").addEventListener("change", rerender);$("fNsfwMax").addEventListener("change", rerender);
   $("fAgeRisk").addEventListener("change", rerender);
   $("fConsentRisk").addEventListener("change", rerender);
 
