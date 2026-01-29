@@ -1,11 +1,11 @@
-const CACHE_NAME = "ptf-v0.1.0";
+const CACHE_NAME = "ptf-v0.1.4";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./manifest.json",
-  "./data/tags.v0.1.0.json",
+  "./data/tags.v0.1.4.json",
   "./assets/icon-192.png",
   "./assets/icon-512.png",
 ];

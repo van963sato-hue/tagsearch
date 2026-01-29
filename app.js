@@ -1,5 +1,5 @@
-/* Prompt Tag Finder v0.1.0 */
-const DATA_URL = "./data/tags.v0.1.1.json";
+/* Prompt Tag Finder v0.1.2 */
+const DATA_URL = "./data/tags.v0.1.4.json";
 
 const $ = (id) => document.getElementById(id);
 
@@ -34,15 +34,22 @@ function saveSelected(){
 }
 function buildSelectOptions(rows){
   const cats = new Set(["（すべて）"]);
-  const srcs = new Set(["（すべて）"]);
-  for(const r of rows){
-    if(r.category_jp) cats.add(r.category_jp);  }
-  const catSel = $("fCategory");}
+for(const r of rows){
+    if(r.category_jp) cats.add(r.category_jp);
+}
+  const catSel = $("fCategory");
+catSel.innerHTML = "";
+for(const v of [...cats].sort()){
+    const o = document.createElement("option");
+    o.value = v === "（すべて）" ? "" : v;
+    o.textContent = v;
+    catSel.appendChild(o);
+  }
+}
 function passesFilters(r){
-  const cat = $("fCategory").value;  if(cat && r.category_jp !== cat) return false;
-  if(src && r.source_site !== src) return false;
-
-  const nsfwOn = $("fNSFW").checked;
+  const cat = $("fCategory").value;
+if(cat && r.category_jp !== cat) return false;
+const nsfwOn = $("fNSFW").checked;
   const nsfwMax = parseInt($("fNsfwMax").value, 10);
   const incAge = $("fAgeRisk").checked;
   const incCon = $("fConsentRisk").checked;
@@ -64,7 +71,6 @@ function matchesQuery(r, tokens){
     norm(r.tag_en),
     norm(r.tag_jp),
     norm(r.category_jp),
-    norm(r.source_site),
   ].join(" ");
   return tokens.every(t => hay.includes(norm(t)));
 }
@@ -126,8 +132,7 @@ function renderList(rows){
     const badges = document.createElement("div");
     badges.className = "badges";
     if(r.category_jp) badges.appendChild(badge(r.category_jp));
-    if(r.source_site) badges.appendChild(badge(r.source_site));
-    if(norm(r.rating)==="nsfw") badges.appendChild(badge(`NSFW${r.nsfw_level ?? ""}`, "nsfw"));
+if(norm(r.rating)==="nsfw") badges.appendChild(badge(`NSFW${r.nsfw_level ?? ""}`, "nsfw"));
     if(r.age_risk) badges.appendChild(badge("age_risk", "risk"));
     if(r.consent_risk) badges.appendChild(badge("consent_risk", "risk"));
 
@@ -135,7 +140,8 @@ function renderList(rows){
     body.className = "itemBody";
     const en = r.tag_en ? `EN: ${r.tag_en}` : "";
     const jp = r.tag_jp ? `JP: ${r.tag_jp}` : "";
-    body.textContent = [en, jp].filter(Boolean).join("   ");top.appendChild(left);
+    body.textContent = [en, jp].filter(Boolean).join("   ");
+top.appendChild(left);
     item.appendChild(top);
 
     item.addEventListener("click", ()=>{
@@ -212,7 +218,12 @@ function wire(){
 
   const rerender = ()=> renderList(state.data);
   $("q").addEventListener("input", rerender);
-  $("fCategory").addEventListener("change", rerender);$("fNsfwMax").addEventListener("change", rerender);
+  $("fCategory").addEventListener("change", rerender);
+$("fNSFW").addEventListener("change", ()=>{
+    $("fNsfwMax").disabled = !$("fNSFW").checked;
+    rerender();
+  });
+  $("fNsfwMax").addEventListener("change", rerender);
   $("fAgeRisk").addEventListener("change", rerender);
   $("fConsentRisk").addEventListener("change", rerender);
 
@@ -242,7 +253,7 @@ async function init(){
   const res = await fetch(DATA_URL);
   const j = await res.json();
   state.version = j.version;
-  state.data = j.tags;
+  state.data = (j.rows || j.tags || []);
 
   $("datasetInfo").textContent = `data v${j.version} / ${j.count} tags`;
 

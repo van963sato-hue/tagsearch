@@ -1,7 +1,7 @@
-# Prompt Tag Finder (v0.1.0)
+# Prompt Tag Finder (v0.1.2)
 
 ブラウザで動く、プロンプト用タグ検索ツールです。
-日本語タグ／英語タグ／カテゴリ／ソースで検索できます。
+日本語タグ／英語タグ／カテゴリで検索できます。
 NSFWはデフォルト非表示で、UIの「NSFW表示」をONにした時だけ候補に出ます。
 
 ## 使い方（ローカル）
@@ -13,7 +13,7 @@ NSFWはデフォルト非表示で、UIの「NSFW表示」をONにした時だ�
 - Netlify Drop にこのフォルダをドラッグ＆ドロップするだけで公開できます。
 
 ## データ更新
-- `data/tags.v0.1.0.json` を新しい `tags.<version>.json` に差し替え
+- `data/tags.v0.1.2.json` を新しい `tags.<version>.json` に差し替え
 - `app.js` の `DATA_URL` を更新
 
 ## データについて
