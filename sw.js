@@ -1,4 +1,4 @@
-const CACHE_NAME = "ptf-v0.1.4";
+const CACHE_NAME = "ptf-v0.1.4-fix1";
 const ASSETS = [
   "./",
   "./index.html",

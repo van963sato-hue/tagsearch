@@ -141,7 +141,9 @@ if(norm(r.rating)==="nsfw") badges.appendChild(badge(`NSFW${r.nsfw_level ?? ""}`
     const en = r.tag_en ? `EN: ${r.tag_en}` : "";
     const jp = r.tag_jp ? `JP: ${r.tag_jp}` : "";
     body.textContent = [en, jp].filter(Boolean).join("   ");
-top.appendChild(left);
+left.appendChild(badges);
+    left.appendChild(body);
+    top.appendChild(left);
     item.appendChild(top);
 
     item.addEventListener("click", ()=>{
